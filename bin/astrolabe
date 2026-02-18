@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require "bundler/inline"
+
+gemfile do
+  source "https://rubygems.org"
+  gem "sqlite3", "~> 2.6"
+  gem "tty-spinner", "~> 0.9"
+  gem "tty-progressbar", "~> 0.18"
+  gem "tty-table", "~> 0.12"
+  gem "tty-prompt", "~> 0.23"
+  gem "pastel", "~> 0.8"
+  gem "tty-markdown", "~> 0.7"
+end
+
+require_relative "../lib/astrolabe"
+
+Astrolabe::CLI.run(ARGV)
