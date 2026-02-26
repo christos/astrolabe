@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require_relative "../lib/astrolabe"
+require "astrolabe"
 
 Astrolabe::CLI.run(ARGV)
