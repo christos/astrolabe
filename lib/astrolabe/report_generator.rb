@@ -80,10 +80,25 @@ module Astrolabe
 
       desc = (rel["repo_description"] || "").strip
       unless desc.empty?
-        desc = desc[0...60] + "..." if desc.length > 60
-        # Align with version: indent + padding + name + " │ "
+        max_width = 75
         desc_padding = " " * (repo_width + 5)
-        line += "\n#{desc_padding}#{@pastel.dim(desc)}"
+        words = desc.split
+        lines = []
+        current = ""
+        words.each do |word|
+          if current.empty?
+            current = word
+          elsif (current.length + 1 + word.length) <= max_width
+            current += " #{word}"
+          else
+            lines << current
+            current = word
+            break if lines.size >= 2
+          end
+        end
+        lines << current if lines.size < 2 && !current.empty?
+        lines[-1] += "..." if lines.size >= 2 && lines.join(" ").length < desc.length
+        line += lines.map { |l| "\n#{desc_padding}#{@pastel.dim(l)}" }.join
       end
 
       line
